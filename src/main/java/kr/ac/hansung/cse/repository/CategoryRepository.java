@@ -37,6 +37,14 @@ public class CategoryRepository {
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }
 
+    public boolean existsByName(String name) {
+        Long count = em.createQuery(
+                        "SELECT COUNT(c) FROM Category c WHERE c.name = :name", Long.class)
+                .setParameter("name", name)
+                .getSingleResult();
+        return count > 0;
+    }
+
     // JOIN FETCH: N+1 문제 방지 (Category + Products 한 번에 로드)
     public Optional<Category> findByIdWithProducts(Long id) {
         List<Category> result = em.createQuery(
@@ -47,4 +55,3 @@ public class CategoryRepository {
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }
 }
-

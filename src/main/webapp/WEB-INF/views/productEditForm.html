@@ -136,29 +136,10 @@
     </form>
 
     <footer class="page-footer">
-        <p id="practice-datetime">실습 수행 일시: 2026년 04월 16일 (목) 오후 10:00:00 | 학번: 2291072 | 성명: 정수연</p>
+        <p id="practice-datetime"
+           th:text="${'실습 수행 일시: ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 HH:mm:ss') + ' | 학번: 2291072 | 성명: 정수연'}">
+            실습 수행 일시: 2026년 04월 16일 22:00:00 | 학번: 2291072 | 성명: 정수연
+        </p>
     </footer>
-
-    <script th:inline="javascript">
-        function updatePracticeDateTime() {
-            const now = new Date();
-            const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const weekday = weekdays[now.getDay()];
-            const hours24 = now.getHours();
-            const period = hours24 < 12 ? '오전' : '오후';
-            const hours12 = String((hours24 % 12) || 12).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-
-            document.getElementById('practice-datetime').textContent =
-                `실습 수행 일시: ${year}년 ${month}월 ${day}일 (${weekday}) ${period} ${hours12}:${minutes}:${seconds} | 학번: 2291072 | 성명: 정수연`;
-        }
-
-        updatePracticeDateTime();
-        setInterval(updatePracticeDateTime, 1000);
-    </script>
 </body>
 </html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카테고리 목록 - Product Management</title>
+    <style>
+        body { font-family: 'Malgun Gothic', Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #2d8f6f; padding-bottom: 10px; color: #23423a; }
+        .btn { display: inline-block; padding: 8px 16px; background: #2d8f6f; color: white; text-decoration: none; border-radius: 4px; margin-bottom: 16px; }
+        .btn:hover { background: #246f57; }
+        .sub-link { display: inline-block; margin-left: 8px; color: #2d8f6f; text-decoration: none; }
+        .sub-link:hover { text-decoration: underline; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        th { background: #2d8f6f; color: white; padding: 12px; text-align: left; }
+        td { padding: 10px 12px; border-bottom: 1px solid #ddd; }
+        tr:hover { background: #f4fbf8; }
+        .empty-msg { text-align: center; padding: 40px; color: #999; font-size: 1.05em; }
+        .page-footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #ddd; color: #666; font-size: 0.95em; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <h1>카테고리 목록</h1>
+
+    <a class="btn" th:href="@{/categories/create}">+ 새 카테고리 등록</a>
+    <a class="sub-link" th:href="@{/products}">상품 목록으로 이동</a>
+
+    <div class="empty-msg" th:if="${#lists.isEmpty(categories)}">
+        등록된 카테고리가 없습니다.
+    </div>
+
+    <table th:unless="${#lists.isEmpty(categories)}">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>카테고리명</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="category : ${categories}">
+                <td th:text="${category.id}">1</td>
+                <td th:text="${category.name}">전자제품</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <footer class="page-footer">
+        <p id="practice-datetime"
+           th:text="${'실습 수행 일시: ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 HH:mm:ss') + ' | 학번: 2291072 | 성명: 정수연'}">
+            실습 수행 일시: 2026년 04월 16일 22:00:00 | 학번: 2291072 | 성명: 정수연
+        </p>
+    </footer>
+</body>
+</html>
