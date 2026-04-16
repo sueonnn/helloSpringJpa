@@ -13,8 +13,8 @@ public class CategoryForm {
 
     private Long id;
 
-    @NotBlank(message = "카테고리명은 필수 입력 항목입니다.")
-    @Size(max = 100, message = "카테고리명은 100자 이하여야 합니다.")
+    @NotBlank(message = "카테고리 이름을 입력하세요")
+    @Size(max = 50, message = "50자 이내로 입력하세요")
     private String name;
 
     public Category toEntity() {

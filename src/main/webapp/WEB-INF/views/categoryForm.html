@@ -20,7 +20,11 @@
         input:focus {
             outline: none; border-color: #2d8f6f; box-shadow: 0 0 0 3px rgba(45,143,111,0.15);
         }
+        .field-error { border-color: #e74c3c !important; }
+        .error-msg { color: #e74c3c; font-size: 0.85em; margin-top: 5px; display: block; }
         .help-text { color: #6c757d; font-size: 0.9em; line-height: 1.6; margin: 0; }
+        .btn-submit { background: #2d8f6f; color: white; border: none; padding: 12px 32px; font-size: 1em; border-radius: 4px; cursor: pointer; }
+        .btn-submit:hover { background: #246f57; }
         .page-footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #ddd; color: #666; font-size: 0.95em; text-align: center; }
     </style>
 </head>
@@ -34,7 +38,16 @@
         <form th:action="@{/categories/create}" th:object="${categoryForm}" method="post">
             <div class="form-group">
                 <label for="name">카테고리명</label>
-                <input type="text" th:field="*{name}" placeholder="예: 전자제품" />
+                <input type="text"
+                       th:field="*{name}"
+                       th:classappend="${#fields.hasErrors('name')} ? 'field-error'"
+                       placeholder="예: 전자제품" />
+                <span class="error-msg"
+                      th:if="${#fields.hasErrors('name')}"
+                      th:errors="*{name}">카테고리명 오류</span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn-submit">카테고리 등록</button>
             </div>
         </form>
     </div>
