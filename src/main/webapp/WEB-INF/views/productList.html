@@ -17,6 +17,14 @@
         h1 { border-bottom: 2px solid #4a90d9; padding-bottom: 10px; color: #2c3e50; }
         .btn { display: inline-block; padding: 8px 16px; background: #4a90d9; color: white; text-decoration: none; border-radius: 4px; margin-bottom: 16px; }
         .btn:hover { background: #357abd; }
+        .search-form { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; padding: 16px; background: #f5f8ff; border: 1px solid #dbe7f5; border-radius: 8px; margin-bottom: 18px; }
+        .search-group { display: flex; flex-direction: column; gap: 6px; min-width: 180px; }
+        .search-group label { font-weight: bold; color: #2c3e50; }
+        .search-input, .search-select { padding: 10px 12px; border: 1px solid #cbd6e2; border-radius: 4px; font-size: 1em; font-family: inherit; }
+        .search-btn { background: #2c3e50; color: white; border: none; padding: 10px 18px; border-radius: 4px; cursor: pointer; font-size: 0.95em; }
+        .search-btn:hover { background: #1f2d3a; }
+        .reset-link { color: #6c757d; text-decoration: none; padding-bottom: 10px; }
+        .reset-link:hover { text-decoration: underline; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th { background: #4a90d9; color: white; padding: 12px; text-align: left; }
         td { padding: 10px 12px; border-bottom: 1px solid #ddd; vertical-align: middle; }
@@ -50,7 +58,39 @@
 
     <a class="btn" th:href="@{/products/create}">+ 새 상품 등록</a>
 
-    <div class="empty-msg" th:if="${#lists.isEmpty(products)}">
+    <form class="search-form" th:action="@{/products}" method="get">
+        <div class="search-group">
+            <label for="keyword">상품명 검색</label>
+            <input id="keyword"
+                   class="search-input"
+                   type="text"
+                   name="keyword"
+                   th:value="${keyword}"
+                   placeholder="검색어를 입력하세요" />
+        </div>
+
+        <div class="search-group">
+            <label for="categoryId">카테고리</label>
+            <select id="categoryId" class="search-select" name="categoryId">
+                <option value="">-- 전체 카테고리 --</option>
+                <option th:each="cat : ${categories}"
+                        th:value="${cat.id}"
+                        th:text="${cat.name}"
+                        th:selected="${cat.id == categoryId}">카테고리</option>
+            </select>
+        </div>
+
+        <button type="submit" class="search-btn">검색</button>
+        <a class="reset-link" th:href="@{/products}">초기화</a>
+    </form>
+
+    <div class="empty-msg"
+         th:if="${#lists.isEmpty(products) and (keyword != null and !#strings.isEmpty(keyword) or categoryId != null)}">
+        검색 결과가 없습니다.
+    </div>
+
+    <div class="empty-msg"
+         th:if="${#lists.isEmpty(products) and ((keyword == null or #strings.isEmpty(keyword)) and categoryId == null)}">
         등록된 상품이 없습니다. 새 상품을 등록해 주세요.
     </div>
 
