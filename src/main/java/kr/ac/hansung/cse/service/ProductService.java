@@ -87,6 +87,10 @@ public class ProductService {
         return productRepository.findByCategoryId(categoryId);
     }
 
+    public List<Product> searchByNameAndCategory(String keyword, Long categoryId) {
+        return productRepository.findByNameContainingAndCategoryId(keyword, categoryId);
+    }
+
     /**
      * ID로 상품 조회
      * Optional을 그대로 반환하여 Controller가 null 처리를 명시적으로 하도록 강제합니다.

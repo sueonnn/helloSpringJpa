@@ -57,9 +57,12 @@ public class ProductController {
                                @RequestParam(required = false) Long categoryId,
                                Model model) {
         List<Product> products;
+        String trimmedKeyword = keyword != null ? keyword.trim() : null;
 
-        if (keyword != null && !keyword.isBlank()) {
-            products = productService.searchByName(keyword.trim());
+        if (trimmedKeyword != null && !trimmedKeyword.isBlank() && categoryId != null) {
+            products = productService.searchByNameAndCategory(trimmedKeyword, categoryId);
+        } else if (trimmedKeyword != null && !trimmedKeyword.isBlank()) {
+            products = productService.searchByName(trimmedKeyword);
         } else if (categoryId != null) {
             products = productService.searchByCategory(categoryId);
         } else {
@@ -69,7 +72,7 @@ public class ProductController {
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
-        model.addAttribute("keyword", keyword);
+        model.addAttribute("keyword", trimmedKeyword);
         model.addAttribute("categoryId", categoryId);
         return "productList";
     }
