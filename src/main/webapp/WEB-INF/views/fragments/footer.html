@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <th:block th:fragment="practiceFooter(studentId, studentName)">
+        <footer class="page-footer">
+            <p id="practice-datetime"
+               th:data-student-id="${studentId}"
+               th:data-student-name="${studentName}">
+                실습 수행 일시: 로딩 중... | 학번: 2291072 | 성명: 정수연
+            </p>
+        </footer>
+        <script>
+            function updatePracticeDateTime() {
+                const target = document.getElementById('practice-datetime');
+                if (!target) return;
+
+                const now = new Date();
+                const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const weekday = weekdays[now.getDay()];
+
+                const hours24 = now.getHours();
+                const period = hours24 < 12 ? '오전' : '오후';
+                const hours12 = String((hours24 % 12) || 12).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+
+                const studentId = target.dataset.studentId;
+                const studentName = target.dataset.studentName;
+
+                target.textContent =
+                    `실습 수행 일시: ${year}년 ${month}월 ${day}일 (${weekday}) ${period} ${hours12}:${minutes}:${seconds} | 학번: ${studentId} | 성명: ${studentName}`;
+            }
+
+            updatePracticeDateTime();
+            setInterval(updatePracticeDateTime, 1000);
+        </script>
+    </th:block>
+</body>
+</html>

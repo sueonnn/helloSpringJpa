@@ -66,11 +66,6 @@
         </tbody>
     </table>
 
-    <footer class="page-footer">
-        <p id="practice-datetime"
-           th:text="${'실습 수행 일시: ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 HH:mm:ss') + ' | 학번: 2291072 | 성명: 정수연'}">
-            실습 수행 일시: 2026년 04월 16일 22:00:00 | 학번: 2291072 | 성명: 정수연
-        </p>
-    </footer>
+    <th:block th:replace="~{fragments/footer :: practiceFooter('2291072', '정수연')}"></th:block>
 </body>
 </html>
